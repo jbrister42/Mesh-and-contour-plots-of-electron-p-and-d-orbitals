@@ -1,0 +1,73 @@
+%assign x y values 
+t = linspace(-5, 5, 1000); 
+[x, y] = meshgrid(t,t);  
+z = 0; 
+ 
+%Mesh plot of p orbital  
+p = x.*exp(-sqrt(x.^2 + y.^2 + z.^2));  
+mesh(x,y,p) 
+title('P Orbital Mesh Plot', 'fontsize', 16); 
+xlabel('x', 'fontsize', 16); 
+ylabel('y', 'fontsize', 16); 
+zlabel('z', 'fontsize', 16); 
+set(gca,'fontsize', 16,'linewidth', 1) 
+set(gca, 'XTick', [-5:1:5]); 
+set(gca, 'YTick', [-5:1:5]);   
+set(gca, 'ZTick', [-0.5:0.1:0.5]); 
+print -dpng -r300 p_orbital.png; 
+ 
+%Mesh plot of d orbital 
+figure 
+d = x.*y.*exp(-sqrt(x.^2 + y.^2 + z.^2)); 
+mesh(x,y,d)
+title('D Orbital Mesh Plot', 'fontsize', 16); 
+xlabel('x', 'fontsize', 16); 
+ylabel('y', 'fontsize', 16);
+zlabel('z', 'fontsize', 16); 
+set(gca,'fontsize', 16,'linewidth', 1) 
+set(gca, 'XTick', [-5:1:5]); 
+set(gca, 'YTick', [-5:1:5]); 
+set(gca, 'ZTick', [-0.5:0.1:0.5]); 
+view([-4,-5,4]); 
+print -dpng -r300 d_orbital.png; 
+ 
+%Contour plot of p orbital 
+figure 
+[C,h] = contour(x,y,p, [0.45:0.05:0.45],'linewidth',1.5); 
+clabel(C,h, 'fontsize', 10); 
+xlabel('x', 'fontsize', 16); 
+ylabel('y', 'fontsize', 16); 
+title('Contour Plot of Electron POrbital','fontsize',16); 
+print -dpng -r300 p_orb_cont.png; 
+ 
+%Contour plot of d orbital #
+figure 
+[C,h] = contour(x,y,d, [0.35:0.05:0.35],'linewidth',1.5); 
+clabel(C,h); 
+xlabel('x', 'fontsize', 16); 
+ylabel('y', 'fontsize', 16); 
+title('Contour Plot of Electron DOrbital','fontsize',16); 
+print -dpng -r300 d_orb_cont.png; 
+ 
+%Plot d orbital along x=y diagonal 
+figure 
+x=y; 
+d = x.*y.*exp(-sqrt(x.^2 + y.^2 + z.^2)); 
+plot(x,d); 
+xlabel('x', 'fontsize', 16); 
+ylabel('z', 'fontsize', 16); 
+title('D Orbital Plot Along X=Y Diagonal','fontsize',16); 
+print -dpng -r300 d_orb_diag.png; 
+ 
+%Plot of derivative of d orbital along x=y diagonal 
+figure
+t = linspace(-5, 5, 1000); 
+[x, y] = meshgrid(t,t); 
+h = 0.01; 
+x=[-5:h:5];
+f = x.^2.*exp(-sqrt(2*x.^2)); 
+dfdx = diff(f)/h; plot(x(1:1000), dfdx); 
+xlabel('x', 'fontsize', 16); 
+ylabel('Derivative of D Orbital Cross Section', 'fontsize', 16);
+title('Derivative of D Orbital Plot Along x=y diagonal','fontsize',16); 
+print -dpng -r300 d_orb_der.png;
